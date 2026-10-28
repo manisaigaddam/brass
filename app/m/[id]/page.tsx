@@ -13,15 +13,15 @@ export default async function MerchantPage({ params }: { params: Promise<{ id: s
   return (
     <main className="page">
       <h1>Invoices</h1>
-      <p className="lede">Open a bill to collect one payment. A pay link can be used again, and each person gets a new invoice.</p>
+      <p className="lede">A bill is one payment. A pay link makes a new invoice for each buyer.</p>
       <div className="row">
-        <Link className="button" href={`/m/${merchant.id}/bills/new`}>
+        <Link className="button gold" href={`/m/${merchant.id}/bills/new`}>
           Create a bill
         </Link>
         <Link className="button" href={`/m/${merchant.id}/links/new`}>
           Create a pay link
         </Link>
-        <Link className="button" href="/settings">
+        <Link className="button quiet" href="/settings">
           Settings
         </Link>
       </div>

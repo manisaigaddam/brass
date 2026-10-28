@@ -80,53 +80,52 @@ export function PayBox({ initial, uri, qr }: { initial: View; uri: string; qr: s
   }
 
   const payable = payment.status === "open" || payment.status === "partial" || payment.status === "broadcast";
+  const shortId = payment.id.replace(/^bill_|^pay_/, "");
 
   return (
     <article className="invoice">
-      <p className="inv-label">Invoice {payment.id.replace(/^bill_|^pay_/, "")}</p>
+      <p className="inv-label">Invoice · {shortId.slice(0, 8)}</p>
       <p className="inv-amount">{payment.amountZec ? `${payment.amountZec} ZEC` : "Open amount"}</p>
       <p className={`inv-due status status-${payment.status}`}>{words[payment.status]}</p>
-      <dl className="inv-meta">
-        <div>
-          <dt>For</dt>
-          <dd>{payment.title}</dd>
-        </div>
-        <div>
-          <dt>Memo</dt>
-          <dd>{payment.note || "—"}</dd>
-        </div>
-      </dl>
-      <table className="inv-lines">
-        <tbody>
-          <tr>
-            <td>{payment.title}</td>
-            <td>{payment.amountZec ? `${payment.amountZec} ZEC` : "—"}</td>
-          </tr>
-          <tr className="total">
-            <td>Total due</td>
-            <td>{payment.amountZec ? `${payment.amountZec} ZEC` : "—"}</td>
-          </tr>
-        </tbody>
-      </table>
-      {payment.receivedZec !== "0" ? <p className="fine">Received {payment.receivedZec} ZEC</p> : null}
+      <p className="inv-for">{payment.title}{payment.note ? ` · ${payment.note}` : ""}</p>
+
       {payable && qr ? (
         <div className="inv-pay">
           <div className="qr" dangerouslySetInnerHTML={{ __html: qr }} />
-          <p className="fine">Scan the code, or connect Noir and pay here.</p>
-          <ConnectNoir onAddress={setPayer} />
-          <button className="button block" type="button" onClick={payWithNoir} disabled={busy || !payer}>
-            {busy ? "Waiting for Noir" : payment.amountZec ? `Pay ${payment.amountZec} ZEC` : "Pay"}
-          </button>
-          <button className="button quiet block" type="button" onClick={() => copy(payment.address, "Address")}>
-            {copied === "Address" ? "Copied" : "Copy address"}
-          </button>
-          <p className="mono">{payment.address}</p>
+          <p className="fine">Scan with a shielded wallet, or connect Noir below.</p>
+          <div className="inv-actions">
+            <ConnectNoir onAddress={setPayer} />
+            <button className="button block gold" type="button" onClick={payWithNoir} disabled={busy || !payer}>
+              {busy ? "Waiting for Noir" : payment.amountZec ? `Pay ${payment.amountZec} ZEC` : "Pay"}
+            </button>
+          </div>
+          <details className="inv-details">
+            <summary>Address and memo</summary>
+            <button className="button quiet block" type="button" onClick={() => copy(payment.address, "Address")}>
+              {copied === "Address" ? "Copied" : "Copy address"}
+            </button>
+            <p className="mono" style={{ marginTop: 10 }}>
+              {payment.address}
+            </p>
+            {payment.memo ? (
+              <p className="mono" style={{ marginTop: 8 }}>
+                Memo: {payment.memo}
+              </p>
+            ) : null}
+            {uri ? (
+              <button className="button quiet block" type="button" onClick={() => copy(uri, "URI")}>
+                {copied === "URI" ? "Copied" : "Copy payment URI"}
+              </button>
+            ) : null}
+          </details>
           {error ? <p className="error">{error}</p> : null}
         </div>
       ) : null}
-      {payment.txid ? <p className="mono">{payment.txid}</p> : null}
+
+      {payment.receivedZec !== "0" ? <p className="fine">Received {payment.receivedZec} ZEC</p> : null}
+      {payment.txid ? <p className="mono" style={{ marginTop: 12 }}>{payment.txid}</p> : null}
       {payment.status === "paid" ? (
-        <a className="button" href={`/receipt/${payment.id}`}>
+        <a className="button block" href={`/receipt/${payment.id}`} style={{ marginTop: 20 }}>
           Receipt
         </a>
       ) : null}

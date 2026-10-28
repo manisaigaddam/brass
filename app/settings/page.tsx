@@ -5,8 +5,8 @@ export default function SettingsPage() {
     <main className="page">
       <h1>Settings</h1>
       <p className="lede">
-        Paste the viewing key once. Bills and pay links use it after that. The key cannot spend, and the website does
-        not keep a copy.
+        Paste the viewing key once. Brass uses it to watch for payment. It cannot spend, and this site does not store
+        a copy after the watcher has it.
       </p>
       <SettingsForm />
     </main>
