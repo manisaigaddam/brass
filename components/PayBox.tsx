@@ -50,11 +50,19 @@ export function PayBox({ initial, uri, qr }: { initial: View; uri: string; qr: s
     setBusy(true);
     setError("");
     try {
-      const { getNoirWallet } = await import("@noir-wallet/sdk");
-      const wallet = getNoirWallet();
-      if (!wallet) {
-        throw new Error("Install the mainnet Noir extension, then reload this page.");
+      const { detectProvider, getNoirWallet } = await import("@noir-wallet/sdk");
+      const start = Date.now();
+      void detectProvider(4000).catch(() => null);
+      let wallet = getNoirWallet();
+      while (!wallet?.zcash && Date.now() - start < 4000) {
+        await new Promise((resolve) => setTimeout(resolve, 120));
+        wallet = getNoirWallet();
       }
+      if (!wallet?.zcash) {
+        throw new Error("Noir was not detected. Install or open the Noir extension in Chrome, then reload this page.");
+      }
+      const existing = await wallet.zcash.getAccounts();
+      if (!existing) await wallet.zcash.connect();
       if (!payment.amountZec) throw new Error("This payment has no amount.");
       const txid = await wallet.zcash.sendTransaction({
         to: payment.address,
