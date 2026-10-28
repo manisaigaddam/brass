@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ConnectNoir } from "./ConnectNoir";
 
 type View = {
   id: string;
@@ -29,6 +30,7 @@ export function PayBox({ initial, uri, qr }: { initial: View; uri: string; qr: s
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState("");
+  const [payer, setPayer] = useState<string | null>(null);
 
   useEffect(() => {
     if (payment.status === "paid" || payment.status === "expired") return;
@@ -50,19 +52,11 @@ export function PayBox({ initial, uri, qr }: { initial: View; uri: string; qr: s
     setBusy(true);
     setError("");
     try {
-      const { detectProvider, getNoirWallet } = await import("@noir-wallet/sdk");
-      const start = Date.now();
-      void detectProvider(4000).catch(() => null);
-      let wallet = getNoirWallet();
-      while (!wallet?.zcash && Date.now() - start < 4000) {
-        await new Promise((resolve) => setTimeout(resolve, 120));
-        wallet = getNoirWallet();
+      const { getNoirWallet } = await import("@noir-wallet/sdk");
+      const wallet = getNoirWallet();
+      if (!wallet?.zcash || !payer) {
+        throw new Error("Connect Noir first.");
       }
-      if (!wallet?.zcash) {
-        throw new Error("Noir was not detected. Install or open the Noir extension in Chrome, then reload this page.");
-      }
-      const existing = await wallet.zcash.getAccounts();
-      if (!existing) await wallet.zcash.connect();
       if (!payment.amountZec) throw new Error("This payment has no amount.");
       const txid = await wallet.zcash.sendTransaction({
         to: payment.address,
@@ -99,8 +93,9 @@ export function PayBox({ initial, uri, qr }: { initial: View; uri: string; qr: s
         <>
           <div className="qr" dangerouslySetInnerHTML={{ __html: qr }} />
           <p className="fine">Scan with Zodl, Zashi, YWallet, or Zingo. The QR is one ZIP-321 request.</p>
+          <ConnectNoir onAddress={setPayer} />
           <div className="row">
-            <button className="button" type="button" onClick={payWithNoir} disabled={busy}>
+            <button className="button" type="button" onClick={payWithNoir} disabled={busy || !payer}>
               {busy ? "Waiting for Noir" : "Pay with Noir"}
             </button>
             <button className="button quiet" type="button" onClick={() => copy(payment.address, "Address")}>

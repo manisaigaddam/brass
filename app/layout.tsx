@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree, Fraunces } from "next/font/google";
+import { ConnectNoir } from "@/components/ConnectNoir";
 import "./globals.css";
 
 const sans = Figtree({ subsets: ["latin"], variable: "--font-sans" });
@@ -15,7 +16,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${sans.variable} ${display.variable}`}>{children}</body>
+      <body className={`${sans.variable} ${display.variable}`}>
+        <div className="wallet-bar">
+          <ConnectNoir />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }
