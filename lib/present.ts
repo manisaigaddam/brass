@@ -5,7 +5,7 @@ import { zip321 } from "./zip321";
 
 export async function presentPayment(payment: Payment) {
   const amountZec = payment.amountZatoshi ? zatoshiToZec(payment.amountZatoshi) : null;
-  const label = process.env.MERCHANT_NAME?.trim() || "Brass";
+  const label = payment.merchantName || "Brass";
   const uri = payment.address
     ? zip321({
         address: payment.address,

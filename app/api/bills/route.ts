@@ -11,12 +11,14 @@ export async function POST(request: Request) {
   }
   try {
     const body = (await request.json()) as {
+      merchantId?: string;
       title?: string;
       note?: string;
       amountZec?: string;
       expiresInHours?: number;
     };
     const payment = await createBill({
+      merchantId: body.merchantId ?? "",
       title: body.title ?? "",
       note: body.note ?? "",
       amountZec: body.amountZec ?? "",

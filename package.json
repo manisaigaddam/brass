@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "manager": "node services/manager/server.mjs",
     "build": "next build",
     "start": "next start"
   },

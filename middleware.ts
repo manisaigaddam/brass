@@ -8,7 +8,9 @@ export function middleware(request: NextRequest) {
   const desk =
     pathname === "/" ||
     pathname.startsWith("/bills") ||
-    pathname.startsWith("/links");
+    pathname.startsWith("/links") ||
+    pathname.startsWith("/m") ||
+    pathname.startsWith("/settings");
   if (!desk) return NextResponse.next();
   if (request.cookies.get("brass_desk")?.value === secret) return NextResponse.next();
   const url = request.nextUrl.clone();
@@ -18,5 +20,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/bills/:path*", "/links/:path*"],
+  matcher: ["/", "/bills/:path*", "/links/:path*", "/m/:path*", "/settings"],
 };

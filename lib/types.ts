@@ -2,6 +2,8 @@ export type PaymentStatus = "open" | "broadcast" | "partial" | "paid" | "expired
 
 export type Payment = {
   id: string;
+  merchantId: string;
+  merchantName: string;
   kind: "bill" | "link";
   linkId: string | null;
   title: string;
@@ -21,6 +23,8 @@ export type Payment = {
 
 export type PayLink = {
   id: string;
+  merchantId: string;
+  merchantName: string;
   title: string;
   note: string;
   amountZatoshi: string | null;

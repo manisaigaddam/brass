@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { publicPayment } from "@/lib/checkout";
-import { reconcileTxid } from "@/lib/reconcile";
+import { noteTx, publicPayment } from "@/lib/checkout";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -8,7 +7,7 @@ export const dynamic = "force-dynamic";
 export async function GET(_request: Request, context: { params: Promise<{ txid: string }> }) {
   try {
     const { txid } = await context.params;
-    const payments = await reconcileTxid(txid);
+    const payments = await noteTx(txid);
     return NextResponse.json({ payments: payments.map(publicPayment) });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Watcher lookup failed.";

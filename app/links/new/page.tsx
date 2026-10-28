@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CreateLinkForm } from "@/components/CreateLinkForm";
 import { Mark } from "@/components/Mark";
 
 export default function NewLinkPage() {
@@ -9,11 +8,11 @@ export default function NewLinkPage() {
         <Mark />
         <strong>Brass</strong>
       </Link>
-      <h1>New pay link</h1>
-      <p className="lede">
-        Share one URL. Each person who presses Pay gets a separate bill. You see every payment. They see their own.
-      </p>
-      <CreateLinkForm />
+      <h1>Save a viewing key first</h1>
+      <p className="lede">A pay link uses the key already stored in Settings. It is not entered again for each link.</p>
+      <Link className="button" href="/settings">
+        Settings
+      </Link>
     </main>
   );
 }

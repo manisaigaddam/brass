@@ -8,7 +8,7 @@ const display = Fraunces({ subsets: ["latin"], variable: "--font-display" });
 export const metadata: Metadata = {
   title: "Brass — A fresh shielded address for every payment",
   description:
-    "Brass is a Zcash till. Send one bill, or share a pay link that starts a separate payment for each person.",
+    "Save a viewing key once. Then send a Zcash bill, or share a pay link that starts a separate payment for each person.",
   robots: { index: false, follow: false },
 };
 

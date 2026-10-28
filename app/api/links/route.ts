@@ -12,12 +12,14 @@ export async function POST(request: Request) {
   }
   try {
     const body = (await request.json()) as {
+      merchantId?: string;
       title?: string;
       note?: string;
       amountZec?: string | null;
       maxPayments?: number | null;
     };
     const link = await createLink({
+      merchantId: body.merchantId ?? "",
       title: body.title ?? "",
       note: body.note ?? "",
       amountZec: body.amountZec ?? null,

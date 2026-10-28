@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function CreateBillForm() {
+export function CreateBillForm({ merchantId }: { merchantId: string }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -17,6 +17,7 @@ export function CreateBillForm() {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
+        merchantId,
         title: form.get("title"),
         amountZec: form.get("amountZec"),
         note: form.get("note"),

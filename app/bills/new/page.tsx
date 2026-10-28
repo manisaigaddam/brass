@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CreateBillForm } from "@/components/CreateBillForm";
 import { Mark } from "@/components/Mark";
 
 export default function NewBillPage() {
@@ -9,9 +8,11 @@ export default function NewBillPage() {
         <Mark />
         <strong>Brass</strong>
       </Link>
-      <h1>New bill</h1>
-      <p className="lede">This creates one payment and closes after it is paid. A second person cannot pay it.</p>
-      <CreateBillForm />
+      <h1>Save a viewing key first</h1>
+      <p className="lede">A bill uses the key already stored in Settings. It is not entered again for each bill.</p>
+      <Link className="button" href="/settings">
+        Settings
+      </Link>
     </main>
   );
 }

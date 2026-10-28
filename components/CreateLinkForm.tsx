@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function CreateLinkForm() {
+export function CreateLinkForm({ merchantId }: { merchantId: string }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -19,6 +19,7 @@ export function CreateLinkForm() {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
+        merchantId,
         title: form.get("title"),
         note: form.get("note"),
         amountZec: amount || null,

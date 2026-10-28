@@ -153,6 +153,7 @@ input, textarea {
 .qr { background: #f7f1e6; border-radius: 12px; overflow: hidden; }
 .qr svg { display: block; width: 100%; height: auto; }
 .row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.desk > .row .button { background: var(--gold); color: var(--ink); }
 .fine { color: var(--muted); font-size: 14px; }
 .mono {
   font-family: ui-monospace, Consolas, monospace;
