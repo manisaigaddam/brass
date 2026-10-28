@@ -1,0 +1,23 @@
+{
+  "name": "brass",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@noir-wallet/sdk": "^0.1.9",
+    "next": "^15.5.3",
+    "qrcode": "^1.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.6",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
+    "typescript": "5.8.2"
+  }
+}

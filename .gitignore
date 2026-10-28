@@ -1,0 +1,9 @@
+node_modules
+.next
+.env
+.env.local
+data/store.json
+watcher/config.json
+watcher/*.db
+*.log
+tsconfig.tsbuildinfo
