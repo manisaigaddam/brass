@@ -1,15 +1,10 @@
 import Link from "next/link";
-import { Mark } from "@/components/Mark";
 
 export default function NewBillPage() {
   return (
-    <main className="desk">
-      <Link className="brand" href="/">
-        <Mark />
-        <strong>Brass</strong>
-      </Link>
+    <main className="page">
       <h1>Save a viewing key first</h1>
-      <p className="lede">A bill uses the key already stored in Settings. It is not entered again for each bill.</p>
+      <p className="lede">Bills use the key in Settings. The title you type is the name of the charge.</p>
       <Link className="button" href="/settings">
         Settings
       </Link>

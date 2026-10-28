@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export function ProfileLink() {
   const [href, setHref] = useState("/settings");
-  const [label, setLabel] = useState("Settings");
+  const [label, setLabel] = useState("Set up");
 
   useEffect(() => {
     const raw = localStorage.getItem("brass.profile");

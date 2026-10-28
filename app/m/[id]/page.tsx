@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Mark } from "@/components/Mark";
 import { profileDesk } from "@/lib/checkout";
 import { zatoshiToZec } from "@/lib/money";
 
@@ -12,16 +11,9 @@ export default async function MerchantPage({ params }: { params: Promise<{ id: s
   if (!desk) notFound();
   const { profile: merchant, bills, links } = desk;
   return (
-    <main className="desk">
-      <Link className="brand" href="/">
-        <Mark />
-        <strong>Brass</strong>
-      </Link>
-      <h1>Payments</h1>
-      <p className="lede">
-        Bookmark this page. New bills and pay links use the viewing key already saved in Settings. Each payer gets a
-        new address. The ZEC goes to your wallet.
-      </p>
+    <main className="page">
+      <h1>Invoices</h1>
+      <p className="lede">Open a bill to collect one payment. A pay link can be used again, and each person gets a new invoice.</p>
       <div className="row">
         <Link className="button" href={`/m/${merchant.id}/bills/new`}>
           Create a bill

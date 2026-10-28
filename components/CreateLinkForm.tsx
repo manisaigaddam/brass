@@ -39,20 +39,20 @@ export function CreateLinkForm({ merchantId }: { merchantId: string }) {
   return (
     <form className="form" onSubmit={onSubmit}>
       <label>
-        What is for sale
+        Title
         <input name="title" required placeholder="Coffee" />
       </label>
       <label>
-        Amount in ZEC
-        <input name="amountZec" inputMode="decimal" placeholder="Leave empty and the payer types it" />
+        Amount, ZEC
+        <input name="amountZec" inputMode="decimal" placeholder="Leave empty if the payer should enter it" />
       </label>
       <label>
         Note
-        <textarea name="note" rows={3} placeholder="Espresso" />
+        <textarea name="note" rows={3} placeholder="Shown on the pay link" />
       </label>
       <label>
-        Maximum payments
-        <input name="maxPayments" type="number" min={1} placeholder="Leave empty for no cap" />
+        Payment limit
+        <input name="maxPayments" type="number" min={1} placeholder="Leave empty for no limit" />
       </label>
       {error ? <p className="error">{error}</p> : null}
       <button className="button" type="submit" disabled={busy}>

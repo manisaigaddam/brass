@@ -37,19 +37,19 @@ export function CreateBillForm({ merchantId }: { merchantId: string }) {
   return (
     <form className="form" onSubmit={onSubmit}>
       <label>
-        What is this for
+        Title
         <input name="title" required placeholder="Table 4" />
       </label>
       <label>
-        Amount in ZEC
+        Amount, ZEC
         <input name="amountZec" required inputMode="decimal" placeholder="0.001" />
       </label>
       <label>
-        Note the payer can read
-        <textarea name="note" rows={3} placeholder="Dinner, 28 Oct" />
+        Note
+        <textarea name="note" rows={3} placeholder="Shown to the payer" />
       </label>
       <label>
-        Hours before it expires
+        Expires in hours
         <input name="expiresInHours" type="number" min={1} defaultValue={24} />
       </label>
       {error ? <p className="error">{error}</p> : null}

@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { Mark } from "@/components/Mark";
 import { StartPay } from "@/components/StartPay";
 import { getLink } from "@/lib/checkout";
 import { zatoshiToZec } from "@/lib/money";
@@ -11,16 +10,14 @@ export default async function PublicLinkPage({ params }: { params: Promise<{ id:
   const found = await getLink(id);
   if (!found) notFound();
   const { link } = found;
-  const merchant = process.env.MERCHANT_NAME?.trim() || "Brass";
   return (
-    <main className="payer">
-      <section className="receipt">
-        <Mark />
-        <p className="kicker">{merchant}</p>
+    <main className="page">
+      <section className="panel" style={{ maxWidth: 480 }}>
+        <p className="kicker">Invoice</p>
         <h1>{link.title}</h1>
         {link.note ? <p className="note">{link.note}</p> : null}
-        <p className="amount">{link.amountZatoshi ? `${zatoshiToZec(link.amountZatoshi)} ZEC` : "You choose"}</p>
-        <p className="fine">Pay opens a payment that is only yours. The next person gets a different one.</p>
+        <p className="amount">{link.amountZatoshi ? `${zatoshiToZec(link.amountZatoshi)} ZEC` : "Enter an amount"}</p>
+        <p className="fine">This opens an invoice that only you can pay.</p>
         {link.active ? <StartPay linkId={link.id} needsAmount={!link.amountZatoshi} /> : <p>This link is paused.</p>}
       </section>
     </main>

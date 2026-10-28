@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PayBox } from "@/components/PayBox";
-import { Mark } from "@/components/Mark";
 import { getPayment, publicPayment } from "@/lib/checkout";
 import { presentPayment } from "@/lib/present";
 
@@ -13,13 +12,9 @@ export default async function BillPage({ params }: { params: Promise<{ id: strin
   if (!payment || payment.kind !== "bill") notFound();
   const view = await presentPayment(payment);
   return (
-    <main className="desk">
-      <Link className="brand" href="/">
-        <Mark />
-        <strong>Brass</strong>
-      </Link>
+    <main className="page">
       <p className="lede">
-        Payer page: <a href={`/pay/${payment.id}`}>{`/pay/${payment.id}`}</a>
+        Customer link <Link href={`/pay/${payment.id}`}>{`/pay/${payment.id}`}</Link>
       </p>
       <PayBox initial={publicPayment(payment)} uri={view.uri} qr={view.qr} />
     </main>

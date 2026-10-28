@@ -82,48 +82,54 @@ export function PayBox({ initial, uri, qr }: { initial: View; uri: string; qr: s
   const payable = payment.status === "open" || payment.status === "partial" || payment.status === "broadcast";
 
   return (
-    <section className="receipt">
-      <p className="kicker">{payment.merchantName}</p>
-      <h1>{payment.title}</h1>
-      {payment.note ? <p className="note">{payment.note}</p> : null}
-      <p className={`status status-${payment.status}`}>{words[payment.status]}</p>
-      <p className="amount">{payment.amountZec ? `${payment.amountZec} ZEC` : "Amount open"}</p>
-      {payment.receivedZec !== "0" ? <p className="fine">Seen: {payment.receivedZec} ZEC</p> : null}
+    <article className="invoice">
+      <p className="inv-label">Invoice {payment.id.replace(/^bill_|^pay_/, "")}</p>
+      <p className="inv-amount">{payment.amountZec ? `${payment.amountZec} ZEC` : "Open amount"}</p>
+      <p className={`inv-due status status-${payment.status}`}>{words[payment.status]}</p>
+      <dl className="inv-meta">
+        <div>
+          <dt>For</dt>
+          <dd>{payment.title}</dd>
+        </div>
+        <div>
+          <dt>Memo</dt>
+          <dd>{payment.note || "—"}</dd>
+        </div>
+      </dl>
+      <table className="inv-lines">
+        <tbody>
+          <tr>
+            <td>{payment.title}</td>
+            <td>{payment.amountZec ? `${payment.amountZec} ZEC` : "—"}</td>
+          </tr>
+          <tr className="total">
+            <td>Total due</td>
+            <td>{payment.amountZec ? `${payment.amountZec} ZEC` : "—"}</td>
+          </tr>
+        </tbody>
+      </table>
+      {payment.receivedZec !== "0" ? <p className="fine">Received {payment.receivedZec} ZEC</p> : null}
       {payable && qr ? (
-        <>
+        <div className="inv-pay">
           <div className="qr" dangerouslySetInnerHTML={{ __html: qr }} />
-          <p className="fine">Scan with Zodl, Zashi, YWallet, or Zingo. The QR is one ZIP-321 request.</p>
+          <p className="fine">Scan the code, or connect Noir and pay here.</p>
           <ConnectNoir onAddress={setPayer} />
-          <div className="row">
-            <button className="button" type="button" onClick={payWithNoir} disabled={busy || !payer}>
-              {busy ? "Waiting for Noir" : "Pay with Noir"}
-            </button>
-            <button className="button quiet" type="button" onClick={() => copy(payment.address, "Address")}>
-              {copied === "Address" ? "Copied" : "Copy address"}
-            </button>
-            <button className="button quiet" type="button" onClick={() => copy(uri, "Link")}>
-              {copied === "Link" ? "Copied" : "Copy wallet request"}
-            </button>
-          </div>
+          <button className="button block" type="button" onClick={payWithNoir} disabled={busy || !payer}>
+            {busy ? "Waiting for Noir" : payment.amountZec ? `Pay ${payment.amountZec} ZEC` : "Pay"}
+          </button>
+          <button className="button quiet block" type="button" onClick={() => copy(payment.address, "Address")}>
+            {copied === "Address" ? "Copied" : "Copy address"}
+          </button>
           <p className="mono">{payment.address}</p>
-          <p className="fine">Memo: {payment.memo}</p>
-          {payment.sharedAddress ? (
-            <p className="fine">
-              This checkout is using one shared address, so Brass cannot see the payment on its own. Start the watcher
-              to give this bill its own address and to mark it paid when the note arrives.
-            </p>
-          ) : (
-            <p className="fine">This page marks itself paid when the watcher sees the note. Leave it open.</p>
-          )}
-        </>
+          {error ? <p className="error">{error}</p> : null}
+        </div>
       ) : null}
-      {payment.txid ? <p className="mono">txid {payment.txid}</p> : null}
+      {payment.txid ? <p className="mono">{payment.txid}</p> : null}
       {payment.status === "paid" ? (
         <a className="button" href={`/receipt/${payment.id}`}>
-          Open receipt
+          Receipt
         </a>
       ) : null}
-      {error ? <p className="error">{error}</p> : null}
-    </section>
+    </article>
   );
 }
